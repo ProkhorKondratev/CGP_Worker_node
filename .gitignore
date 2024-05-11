@@ -1,0 +1,14 @@
+# gitignore проекта
+
+*.sqlite3
+__pycache__
+
+# папка с миграциями
+**/migrations/**
+!**/migrations/__init__.py
+
+# файлы ide pycharm и vs code
+.idea/
+.vscode/
+
+data/
