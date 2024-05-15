@@ -1,7 +1,7 @@
 services:
   postgres:
     image: postgis/postgis:16-3.4-alpine
-    container_name: cgp-postgres-worker
+    container_name: cgp-postgres
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -18,7 +18,7 @@ services:
 
   redis:
     image: redis
-    container_name: cgp-redis-worker
+    container_name: cgp-redis
     ports:
       - "${REDIS_PORT}:6379"
     volumes:
@@ -28,3 +28,20 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+
+  odm-engine:
+    image: opendronemap/nodeodm:gpu
+    container_name: cgp-odm-node
+    environment:
+      - gpus=all
+    ports:
+      - "${NODEODM_PORT}:3000"
+    volumes:
+      - ./data/odm_data:/var/www/data
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: [ gpu ]
+              count: all
