@@ -32,3 +32,7 @@ class ThreeDimData(Table):
     __tablename__ = 'three_dim_data'
 
     coverage = Column(Geometry(geometry_type="POLYGON", srid=4326))
+
+
+class ProcessingTask(Table):
+    __tablename__ = 'processing_tasks'

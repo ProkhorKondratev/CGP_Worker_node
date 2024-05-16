@@ -1,0 +1,230 @@
+end-with:
+  label: Завершить на этапе
+
+rerun-from:
+  label: Начать с этапа
+
+min-num-features:
+  label: Минимальное количество ключевых точек на кадр
+
+feature-type:
+  label: Алгоритм извлечения ключевых точек
+
+feature-quality:
+  label: Качество извлечения ключевых точек
+
+matcher-type:
+  label: Алгоритм сопоставления снимков
+
+matcher-neighbors:
+  label: Сопоставление по данным GPS. 0 - сопоставление по триангуляции
+
+matcher-order:
+  label: Сопоставление на основе порядка кадров по их названию. 0 - не учитывать порядок
+
+use-fixed-camera-params:
+  label: Отключить оптимизацию параметров камеры
+
+cameras:
+  label: Пользовательские параметры камеры (JSON)
+
+camera-lens:
+  label: Тип объектива камеры
+
+radiometric-calibration:
+  label: Использовать радиометрическую калибровку
+
+max-concurrency:
+  label: Количество рабочих процессов (~1GB RAM на процесс)
+
+use-hybrid-bundle-adjustment:
+  label: Применить локальное отождествление на каждую 100 кадров (для больших проектов)
+
+sfm-algorithm:
+  label: Тип восстановления трехмерной сцены
+
+sfm-no-partial:
+  label: Не восстанавливать при низком перекрытии
+
+sky-removal:
+  label: Удалить облака с помощью AI (экспериментально)
+
+bg-removal:
+  label: Удалить фон с помощью AI (экспериментально)
+
+use-3dmesh:
+  label: Использовать 3D-сетку для построения ортофотоплана (вместо 2.5D).
+
+skip-3dmodel:
+  label: Не создавать 3D модель
+
+skip-report:
+  label: Не создавать отчет о результатах обработки
+
+skip-orthophoto:
+  label: Не создавать ортофотоплан
+
+ignore-gsd:
+  label: Игнорировать показатель GSD
+
+no-gpu:
+  label: Не использовать GPU для обработки
+
+mesh-size:
+  label: Максимальный размер сетки
+
+mesh-octree-depth:
+  label: Параметр глубины при реконструкции сетки (рек. 8-12). Мин. - 1, макс. - 14
+
+fast-orthophoto:
+  label: Ускорить построение ортофотоплана (Создание из разреженного облака)
+
+crop:
+  label: Обрезать по границе (в м. от границ данных). 0 - не обрезать
+
+boundary:
+  label: Граница области интереса (полигон в формате JSON)
+
+auto-boundary:
+  label: Автоматически определить границу области интереса
+
+auto-boundary-distance:
+  label: Расстояние от точки съемки при автоматическом определении границы. 0 - автоматически
+
+pc-quality:
+  label: Качество облака точек
+
+pc-classify:
+  label: Классифицировать облако точек (управляется через настройки ЦММ)
+
+pc-filter:
+  label: Фильтровать облако точек (N от стандартного отклонения). 0 - не фильтровать
+
+pc-samples:
+  label: Фильтровать по сэмплам (одна точка на N метров). 0 - не фильтровать
+
+pc-skip-geometric:
+  label: Не рассчитывать геометрические признаки
+
+smrf-scalar:
+  label: Скалярный коэффициент SMRF
+
+smrf-slope:
+  label: Угловой коэффициент SMRF
+
+smrf-threshold:
+  label: Порог SMRF (м)
+
+smrf-window:
+  label: Размер окна SMRF (м)
+
+texturing-skip-global-seam-leveling:
+  label: Пропустить глобальную нормализацию цветов
+
+texturing-skip-local-seam-leveling:
+  label: Пропустить локальную нормализацию цветов 
+
+texturing-keep-unseen-faces:
+  label: Сохранить невидимые грани сетки
+
+texturing-single-material:
+  label: Использовать один материал для текстурирования
+
+gltf:
+  label: Сгенирировать glTF модель
+
+use-exif:
+  label: Использовать данные из EXIF снимков
+
+dtm:
+  label: Сгенерировать наземную цифровую модель местности
+
+dsm:
+  label: Сгенерировать цифровую модель поверхности
+
+dem-gapfill-steps:
+  label: Количество шагов для заполнения отверстий в ЦММ (0 - не заполнять)
+
+dem-resolution:
+  label: Разрешение ЦММ (см/пикс)
+
+dem-decimation:
+  label: Проредить точки при создании ЦММ (0 - не прореживать, 100 - удалить 99% точек)
+
+dem-euclidean-map:
+  label: Построить карту евклидовых расстояний для ЦММ
+
+orthophoto-resolution:
+  label: Разрешение ортофотоплана (см/пикс)
+
+orthophoto-no-tiled:
+  label: Не создавать тайловый GeoTIFF
+
+orthophoto-png:
+  label: Создать ортофотоплан в формате PNG
+
+orthophoto-kmz:
+  label: Создать ортофотоплан в формате KMZ
+
+orthophoto-compression:
+  label: Алгоритм сжатия ортофотоплана
+
+orthophoto-cutline:
+  label: Создать полигональную маску для ортофотоплана
+
+tiles:
+  label: Сгенерировать тайлы
+
+3d-tiles:
+  label: Сгенерировать 3D-тайлы (Стандарт OGC)
+
+rolling-shutter:
+  label: Включить корекцию "шарнирного" эффекта затвора
+
+rolling-shutter-readout:
+  label: Время считывания затвора (мс)
+
+build-overviews:
+  label: Сгенерировать пирамиды изображений
+
+cog:
+  label: Создать Cloud Optimized GeoTIFF (COG) вместо обычного
+
+video-limit:
+  label: Максимальное количество кадров для извлечения из видео (0 - все кадры)
+
+video-resolution:
+  label: Разрешение кадров для извлечения из видео (пикс)
+
+split:
+  label: Разбить обработку на части (количество изображений на часть)
+
+split-overlap:
+  label: Радиус перекрытия частей (м)
+
+sm-no-align:
+  label: Не выравнивать части (при высокой точности GPS)
+
+sm-cluster:
+  label: URL кластера для параллельной обработки
+
+merge:
+  label: Объекты для объединения при разбиении
+
+force-gps:
+  label: Принудительно использовать данные GPS
+
+gps-accuracy:
+  label: Точность GPS (м)
+
+optimize-disk-space:
+  label: Оптимизировать использование дискового пространства
+
+pc-rectify:
+  label: Использовать геометрическую коррекцию облака точек
+
+primary-band:
+  label: Основной канал (мультиспектральная обработка)
+
+skip-band-alignment:
+  label: Пропустить выравнивание каналов (мультиспектральная обработка)
