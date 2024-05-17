@@ -1,15 +1,19 @@
 from fastapi import APIRouter, Form, UploadFile, File, Request
 from services import Uploader, Processing
 
-router = APIRouter(prefix="/processing", tags=["geodata"])
+router = APIRouter()
 
 
 @router.post("/run")
 async def run_processing(file: UploadFile = File(...), name: str = Form(...), options: dict = Form({})):
     try:
-        files_list = await Uploader.upload(file)
-        uuid = await Processing.default_engine.run(name=name, files_list=files_list, options=options)
-        return {"status": "success", "uuid": uuid}
+        async def callback(files_list):
+            uuid = await Processing.default_engine.run(name=name, files_list=files_list, options=options)
+            return {"status": "success", "uuid": uuid}
+
+        result = await Uploader.upload_task(file, callback)
+        return result
+
     except Exception as e:
         return {"status": "error", "message": str(e)}
 

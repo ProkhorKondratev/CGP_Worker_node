@@ -3,8 +3,7 @@ import asyncio
 from pyodm import Node
 from models import TaskModel, OptionsModel
 from .parser import ODMParser
-from database.engine import new_session
-from database.tables import ProcessingTask
+from database import new_session, ProcessingTask
 
 
 class ProcessingEngine:
@@ -26,10 +25,10 @@ class ODMNode(ProcessingNode):
         self.token = token
 
         self.parser = ODMParser()
-        self._node = Node(self.host, self.port, self.token)
+        self._node = Node(self.host, self.port, self.token, timeout=3)
 
     async def create_task(self, files_list: list, name: str, options: dict, webhook: str = ""):
-        print(f"Запуск обработки {name} с параметрами: {options}")
+        print(f"Запуск обработки {name} с параметрами: {options}. Количество файлов: {len(files_list)}")
         async with new_session() as session:
             processing_task = await asyncio.to_thread(
                 self._node.create_task, files=files_list, name=name, webhook=webhook, options=options
@@ -59,8 +58,9 @@ class ODMNode(ProcessingNode):
 
     async def cancel_task(self, uuid: str):
         task = await asyncio.to_thread(self._node.get_task, uuid)
+        info = task.info()
 
-        if task.status.name == "COMPLETED":
+        if info.status.name == "COMPLETED":
             raise Exception("Нельзя отменить завершенную задачу")
 
         result = task.cancel()
@@ -81,12 +81,12 @@ class ODMNode(ProcessingNode):
             status=info.status.name,
             progress=info.progress,
             last_error=info.last_error,
-            options=info.options,
+            options={option['name']: option['value'] for option in info.options},
         )
 
     async def get_task_options(self, uuid: str):
         info = await self.task_info(uuid)
-        return OptionsModel(uuid=uuid, options={option['name']: option['value'] for option in info.options})
+        return OptionsModel(uuid=uuid, options=info.options)
 
     async def tasks_info(self):
         async with new_session() as session:

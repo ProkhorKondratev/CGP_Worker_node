@@ -2,6 +2,7 @@ from pydantic import BaseModel
 from datetime import datetime
 from typing import Any
 
+
 class Task(BaseModel):
     uuid: str
     name: str
@@ -9,7 +10,7 @@ class Task(BaseModel):
     status: str
     progress: int
     last_error: str
-    options: list[dict]
+    options: dict
 
 
 class PossibleOptions(BaseModel):
@@ -18,6 +19,7 @@ class PossibleOptions(BaseModel):
     default: Any
     type: str
     options: list[dict] = []
+
 
 class TaskOptions(BaseModel):
     uuid: str

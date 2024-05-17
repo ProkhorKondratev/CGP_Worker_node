@@ -1,5 +1,25 @@
 services:
+  # api:
+  #   restart: unless-stopped
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   container_name: cgp-api
+  #   env_file:
+  #     - .env
+  #   healthcheck:
+  #     test: [ "CMD", "curl", "-f", "http://localhost:8000/docs" ]
+  #     interval: 30s
+  #     timeout: 5s
+  #     retries: 3
+  #     start_period: 30s
+  #   ports:
+  #     - "${API_PORT}:8000"
+  #   volumes:
+  #     - worker_data:/app/data
+
   postgres:
+    restart: unless-stopped
     image: postgis/postgis:16-3.4-alpine
     container_name: cgp-postgres
     environment:
@@ -9,27 +29,31 @@ services:
     ports:
       - "${POSTGRES_PORT}:5432"
     volumes:
-      - ./data/pg_data:/var/lib/postgresql/data
+      - pg_data:/var/lib/postgresql/data
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER}" ]
-      interval: 10s
+      interval: 30s
       timeout: 5s
-      retries: 5
+      retries: 3
+      start_period: 30s
 
   redis:
+    restart: unless-stopped
     image: redis
     container_name: cgp-redis
     ports:
       - "${REDIS_PORT}:6379"
     volumes:
-      - ./data/redis_data:/data
+      - redis_data:/data
     healthcheck:
       test: [ "CMD", "redis-cli", "ping" ]
-      interval: 10s
+      interval: 30s
       timeout: 5s
-      retries: 5
+      retries: 3
+      start_period: 30s
 
   odm-engine:
+    restart: unless-stopped
     image: opendronemap/nodeodm:gpu
     container_name: cgp-odm-node
     environment:
@@ -37,7 +61,7 @@ services:
     ports:
       - "${NODEODM_PORT}:3000"
     volumes:
-      - ./data/odm_data:/var/www/data
+      - odm_data:/var/www/data
     deploy:
       resources:
         reservations:
@@ -45,3 +69,14 @@ services:
             - driver: nvidia
               capabilities: [ gpu ]
               count: all
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:3000/info" ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+
+volumes:
+  pg_data:
+  redis_data:
+  odm_data:

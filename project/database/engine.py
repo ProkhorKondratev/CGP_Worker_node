@@ -1,16 +1,20 @@
-from .tables import Table
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
+from sqlalchemy.orm import DeclarativeBase
 
 
-engine = create_async_engine("postgresql+asyncpg://cgp-worker:123456@localhost:5434/cgp", echo=True)
-new_session = async_sessionmaker(engine, expire_on_commit=False)
+async_engine = create_async_engine("postgresql+asyncpg://cgp-worker:123456@localhost:5434/cgp", echo=False)
+new_session = async_sessionmaker(async_engine, expire_on_commit=False)
+
+
+class Base(DeclarativeBase):
+    pass
 
 
 async def create_tables():
-    async with engine.begin() as conn:
-        await conn.run_sync(Table.metadata.create_all)
+    async with async_engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
 
 
 async def delete_tables():
-    async with engine.begin() as conn:
-        await conn.run_sync(Table.metadata.drop_all)
+    async with async_engine.begin() as conn:
+        await conn.run_sync(Base.metadata.drop_all)
