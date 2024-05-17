@@ -12,11 +12,13 @@ class Task(BaseModel):
     options: list[dict]
 
 
-class TaskOptions(BaseModel):
+class PossibleOptions(BaseModel):
     name: str
-    value: Any
+    label: str
     default: Any
     type: str
-    label: str
-    description: str
     options: list[dict] = []
+
+class TaskOptions(BaseModel):
+    uuid: str
+    options: dict

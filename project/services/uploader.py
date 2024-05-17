@@ -22,6 +22,7 @@ class Uploader:
         archive_ext = (".zip",)
 
         if file.filename and file.filename.endswith(archive_ext):
+            print(f"Загрузка файла {file.filename}")
             async with aiofiles.tempfile.TemporaryDirectory() as temp_path:
                 archive_path = os.path.join(temp_path, file.filename)
 

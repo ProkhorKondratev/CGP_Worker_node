@@ -8,8 +8,8 @@ router = APIRouter(prefix="/processing", tags=["geodata"])
 async def run_processing(file: UploadFile = File(...), name: str = Form(...), options: dict = Form({})):
     try:
         files_list = await Uploader.upload(file)
-        result = await Processing.default_engine.run(name=name, files_list=files_list, options=options)
-        return {"status": "success", "uuid": result.uuid}
+        uuid = await Processing.default_engine.run(name=name, files_list=files_list, options=options)
+        return {"status": "success", "uuid": uuid}
     except Exception as e:
         return {"status": "error", "message": str(e)}
 
@@ -54,11 +54,20 @@ async def remove_task(uuid: str):
         return {"status": "error", "message": str(e)}
 
 
+@router.get("/tasks/{uuid}/options")
+async def get_task_options(uuid: str):
+    try:
+        return await Processing.default_engine.get_task_options(uuid)
+    except Exception as e:
+        return {"status": "error", "message": str(e)}
+
+
 @router.post("/webhook")
 async def webhook(request: Request):
     data = await request.json()
     print(data)
     return data
+
 
 @router.get("/options")
 async def get_options():

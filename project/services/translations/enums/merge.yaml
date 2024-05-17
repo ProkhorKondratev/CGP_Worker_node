@@ -1,0 +1,4 @@
+all: Все
+pointcloud: Облако точек
+orthophoto: Ортофотоплан
+dem: ЦММ

@@ -8,7 +8,7 @@ from uuid import uuid4
 
 
 class Table(DeclarativeBase):
-    id: Mapped[str] = mapped_column(UUID, primary_key=True, index=True, unique=True, nullable=False, default=uuid4)
+    uuid: Mapped[str] = mapped_column(UUID, primary_key=True, index=True, unique=True, nullable=False, default=uuid4)
     name: Mapped[str] = mapped_column(nullable=True)
     created_at: Mapped[datetime] = mapped_column(default=datetime.now(timezone.utc))
     updated_at: Mapped[datetime] = mapped_column(onupdate=datetime.now(timezone.utc))

@@ -97,10 +97,22 @@ pc-quality:
 pc-classify:
   label: Классифицировать облако точек (управляется через настройки ЦММ)
 
+pc-cops:
+  label: Экспортировать облако точек в формат Cloud Optimized Point Cloud (COPC)
+
+pc-csv:
+  label: Экспортировать облако точек в CSV
+
+pc-ept:
+  label: Экспортировать облако точек в EPT
+
+pc-las:
+  label: Экспортировать облако точек в LAS
+
 pc-filter:
   label: Фильтровать облако точек (N от стандартного отклонения). 0 - не фильтровать
 
-pc-samples:
+pc-sample:
   label: Фильтровать по сэмплам (одна точка на N метров). 0 - не фильтровать
 
 pc-skip-geometric:

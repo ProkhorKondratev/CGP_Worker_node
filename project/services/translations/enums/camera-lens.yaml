@@ -1,0 +1,8 @@
+auto: Автоматически
+brown: Прямолинейная
+fisheye: Широкоугольная
+perspective: Перспективная
+spherical: Сферическая
+equirectangular: Эквиректангулярная
+dual: Двойная
+fisheye_opencv: Широкоугольная (OpenCV)

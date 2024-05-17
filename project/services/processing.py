@@ -1,3 +1,4 @@
+from sqlalchemy import select
 import asyncio
 from pyodm import Node
 from models import TaskModel, OptionsModel
@@ -28,14 +29,21 @@ class ODMNode(ProcessingNode):
         self._node = Node(self.host, self.port, self.token)
 
     async def create_task(self, files_list: list, name: str, options: dict, webhook: str = ""):
-        print(f"Создание задачи: {name}", files_list, options)
-        task = await asyncio.to_thread(self._node.create_task, files_list, name=name, webhook=webhook, options=options)
-        return task.uuid
+        print(f"Запуск обработки {name} с параметрами: {options}")
+        async with new_session() as session:
+            processing_task = await asyncio.to_thread(
+                self._node.create_task, files=files_list, name=name, webhook=webhook, options=options
+            )
+            task = ProcessingTask(uuid=processing_task.uuid, name=name)
+            session.add(task)
+            await session.commit()
+            return processing_task.uuid
 
     async def restart_task(self, uuid: str):
         task = await asyncio.to_thread(self._node.get_task, uuid)
         result = task.restart()
         if result:
+            print(f"Задача {uuid} перезапущена")
             return result
         else:
             raise Exception("Ошибка перезапуска задачи")
@@ -44,6 +52,7 @@ class ODMNode(ProcessingNode):
         task = await asyncio.to_thread(self._node.get_task, uuid)
         result = task.remove()
         if result:
+            print(f"Задача {uuid} удалена")
             return result
         else:
             raise Exception("Ошибка удаления задачи")
@@ -56,6 +65,7 @@ class ODMNode(ProcessingNode):
 
         result = task.cancel()
         if result:
+            print(f"Задача {uuid} отменена")
             return result
         else:
             raise Exception("Ошибка отмены задачи")
@@ -74,12 +84,15 @@ class ODMNode(ProcessingNode):
             options=info.options,
         )
 
+    async def get_task_options(self, uuid: str):
+        info = await self.task_info(uuid)
+        return OptionsModel(uuid=uuid, options={option['name']: option['value'] for option in info.options})
+
     async def tasks_info(self):
         async with new_session() as session:
-            tasks = session.query(ProcessingTask).all()
-
+            tasks = await session.execute(select(ProcessingTask))
             tasks_info = []
-            for task in tasks:
+            for task in tasks.scalars():
                 task_info = await self.task_info(task.uuid)
                 tasks_info.append(task_info)
 
@@ -122,6 +135,14 @@ class ODMEngine(ProcessingEngine):
         :return: Список задач
         """
         return await ODMEngine.node.tasks_info()
+
+    @staticmethod
+    async def get_task_options(uuid: str) -> OptionsModel:
+        """Получение опций задачи
+        :param uuid: UUID задачи
+        :return: Опции задачи
+        """
+        return await ODMEngine.node.get_task_options(uuid)
 
     @staticmethod
     async def restart_task(uuid: str) -> bool:

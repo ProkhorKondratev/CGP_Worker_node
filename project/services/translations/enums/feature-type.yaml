@@ -1,0 +1,5 @@
+akaze: AKAZE (Accelerated-KAZE)
+dspsift: DSP-SIFT (Dense SIFT)
+hahog: HA-HOG (Histogram of Oriented Gradients)
+orb: ORB (Oriented FAST and Rotated BRIEF)
+sift: SIFT (Scale-Invariant Feature Transform)
