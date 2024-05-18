@@ -12,8 +12,8 @@ async def lifespan(app: FastAPI):
     await create_tables()
     print("База готова")
     yield
-    await delete_tables()
-    print("База очищена")
+    # await delete_tables()
+    # print("База очищена")
 
 
 app = FastAPI(lifespan=lifespan, title="CGP-worker", version="0.1.0", docs_url=None, redoc_url=None)
@@ -29,6 +29,11 @@ async def custom_swagger_ui_html():
         swagger_js_url="https://unpkg.com/swagger-ui-dist@5.9.0/swagger-ui-bundle.js",
         swagger_css_url="https://unpkg.com/swagger-ui-dist@5.9.0/swagger-ui.css",
     )
+
+
+@app.get("/ping")
+async def ping():
+    return {"ping": "pong"}
 
 
 # Добавляем CORS middleware

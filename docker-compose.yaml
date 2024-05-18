@@ -1,22 +1,27 @@
 services:
-  # api:
-  #   restart: unless-stopped
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile
-  #   container_name: cgp-api
-  #   env_file:
-  #     - .env
-  #   healthcheck:
-  #     test: [ "CMD", "curl", "-f", "http://localhost:8000/docs" ]
-  #     interval: 30s
-  #     timeout: 5s
-  #     retries: 3
-  #     start_period: 30s
-  #   ports:
-  #     - "${API_PORT}:8000"
-  #   volumes:
-  #     - worker_data:/app/data
+  api:
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cgp-api
+    env_file:
+      - .env
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8000/ping" ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+    ports:
+      - "${API_PORT}:8000"
+    volumes:
+      - worker_data:/app/data
+      - odm_data:/app/odm_data
+    depends_on:
+      - postgres
+      - redis
+      - odm-engine
 
   postgres:
     restart: unless-stopped
@@ -59,7 +64,7 @@ services:
     environment:
       - gpus=all
     ports:
-      - "${NODEODM_PORT}:3000"
+      - "${ODM_NODE_PORT}:3000"
     volumes:
       - odm_data:/var/www/data
     deploy:
@@ -80,3 +85,4 @@ volumes:
   pg_data:
   redis_data:
   odm_data:
+  worker_data:

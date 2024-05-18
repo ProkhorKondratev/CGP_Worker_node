@@ -3,6 +3,7 @@ import asyncio
 from pyodm import Node
 from models import TaskModel, OptionsModel
 from .parser import ODMParser
+from config import settings
 from database import new_session, ProcessingTask
 
 
@@ -19,7 +20,7 @@ class MetashapeNode(ProcessingNode):
 
 
 class ODMNode(ProcessingNode):
-    def __init__(self, host: str = "localhost", port: int = 3000, token: str = ""):
+    def __init__(self, host: str = settings.ODM_NODE_HOST, port: int = settings.ODM_NODE_PORT, token: str = ""):
         self.host = host
         self.port = port
         self.token = token

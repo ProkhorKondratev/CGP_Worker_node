@@ -1,31 +1,6 @@
-venv/
-.env
-
-*.sqlite3
-
-__pycache__/
-*.py[cod]
-*.pyo
-*.pyd
-*.swp
-*.bak
-*.tmp
-*.log
-
-.vscode/
-.idea/
-
-
-# файлы ide pycharm и vs code
-.idea/
-.vscode/
-
 # Исключаем директории и файлы виртуального окружения
 venv/
 .env
-
-# Исключаем файлы базы данных SQLite
-*.sqlite3
 
 # Исключаем кэш и временные файлы
 __pycache__/
@@ -42,6 +17,7 @@ __pycache__/
 .idea/
 
 # Исключаем файлы тестов и покрытий тестов
+tests/
 coverage/
 .coverage
 *.cover
@@ -51,13 +27,20 @@ coverage/
 .github/
 .gitlab-ci.yml
 
-# Исключаем системные файлы
+# Исключаем различные системные файлы
 .DS_Store
+*.rst
+*.md
 
-# Исключаем файлы зависимостей pipenv и poetry, если они есть
+# Исключаем локальные файлы Docker
+docker-compose.yml
+Dockerfile
+.dockerignore
+
+# Исключаем зависимости pipenv и poetry, если они есть
+Pipfile
 Pipfile.lock
 poetry.lock
-
 
 # Исключаем сами git-репозитории и все их содержимое
 .git

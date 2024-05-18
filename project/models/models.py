@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator, field_serializer
 from datetime import datetime
 from typing import Any
 
@@ -11,6 +11,12 @@ class Task(BaseModel):
     progress: int
     last_error: str
     options: dict
+
+    @field_validator('progress', mode='before')
+    def float_to_int(cls, v):
+        if isinstance(v, float):
+            return int(v)
+        return v
 
 
 class PossibleOptions(BaseModel):
