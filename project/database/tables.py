@@ -63,6 +63,7 @@ class VectorData(Table):
 class RasterData(Table):
     __tablename__ = 'raster_data'
 
+    path: Mapped[str] = mapped_column(nullable=True)
     properties: Mapped[dict] = mapped_column(JSON, nullable=True)
     coverage = Column(Geometry(geometry_type="POLYGON", srid=4326))
 
@@ -70,6 +71,7 @@ class RasterData(Table):
 class ThreeDimData(Table):
     __tablename__ = 'three_dim_data'
 
+    path: Mapped[str] = mapped_column(nullable=True)
     coverage = Column(Geometry(geometry_type="POLYGON", srid=4326))
 
 

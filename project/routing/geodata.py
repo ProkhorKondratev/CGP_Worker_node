@@ -1,4 +1,6 @@
 from fastapi import APIRouter, UploadFile, File
+from fastapi.responses import FileResponse
+from fastapi.exceptions import HTTPException
 from geopandas import GeoDataFrame
 from services import Uploader, GeoDataHandler
 
@@ -32,6 +34,22 @@ async def upload_vectors_geometry(geometry: dict):
         return {"status": "error", "message": str(e)}
 
 
+@router.post("/upload/raster")
+async def upload_raster(file_path: str):
+    try:
+        return await GeoDataHandler.upload_raster(file_path)
+    except Exception as e:
+        return {"status": "error", "message": str(e)}
+
+
+@router.post("/upload/3dtiles")
+async def upload_3dtiles(file_path: str):
+    try:
+        return await GeoDataHandler.upload_3d_tiles(file_path)
+    except Exception as e:
+        return {"status": "error", "message": str(e)}
+
+
 @router.get("/vector")
 async def get_vectors():
     try:
@@ -46,3 +64,19 @@ async def get_vector(uuid: str):
         return await GeoDataHandler.get_vector(uuid)
     except Exception as e:
         return {"status": "error", "message": str(e)}
+
+
+@router.get("/tiles/{uuid}/{z}/{x}/{y}")
+async def get_tiles(uuid: str, z: int, x: int, y: int):
+    try:
+        return FileResponse(await GeoDataHandler.get_tiles(uuid, z, x, y))
+    except Exception as e:
+        raise HTTPException(status_code=404, detail=str(e))
+
+
+@router.get("/3dtiles/{uuid}/{file:path}")
+async def get_3d_tiles(uuid: str, file: str):
+    try:
+        return FileResponse(await GeoDataHandler.get_3d_tiles(uuid, file))
+    except Exception as e:
+        raise HTTPException(status_code=404, detail=str(e))

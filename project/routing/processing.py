@@ -1,14 +1,17 @@
 from fastapi import APIRouter, Form, UploadFile, File, Request
 from services import Uploader, Processing
+import json
 
 router = APIRouter()
 
 
 @router.post("/run")
-async def run_processing(file: UploadFile = File(...), name: str = Form(...), options: dict = Form({})):
+async def run_processing(file: UploadFile = File(...), name: str = Form(...), options: str = Form({})):
     try:
+        dict_options = json.loads(options)
+
         async def callback(files_list):
-            uuid = await Processing.default_engine.run(name=name, files_list=files_list, options=options)
+            uuid = await Processing.default_engine.run(name=name, files_list=files_list, options=dict_options)
             return {"status": "success", "uuid": uuid}
 
         result = await Uploader.upload_task(file, callback)

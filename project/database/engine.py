@@ -3,7 +3,8 @@ from sqlalchemy.orm import DeclarativeBase
 from config import settings
 
 postgres_host = settings.POSTGRES_HOST
-postgres_port = 5432
+postgres_port = settings.POSTGRES_PORT
+
 
 if settings.DEBUG:
     postgres_host = "localhost"

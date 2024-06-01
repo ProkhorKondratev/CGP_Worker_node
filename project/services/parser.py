@@ -54,7 +54,7 @@ class BuiltinsParsingStrategy:
         return {
             "name": name,
             "label": label,
-            "default": self.type(value),
+            "default": value == "true" if self.type is bool else self.type(value),
             "type": self.type.__name__,
         }
 
