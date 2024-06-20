@@ -1,7 +1,7 @@
 import asyncio
-from app.models import TaskModel, OptionsModel
-from app.config import settings
-from app.database import new_session, ProcessingTask
+from models import TaskModel, OptionsModel
+from config import settings
+from database import new_session, ProcessingTask
 from .parser import ODMParser
 from sqlalchemy import select
 from pyodm import Node

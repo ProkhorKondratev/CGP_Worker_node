@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Form, UploadFile, File, Request
-from app.services import Uploader, Processing
+from services import Uploader, Processing
 import json
 
 router = APIRouter()

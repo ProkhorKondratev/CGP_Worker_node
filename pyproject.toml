@@ -1,6 +1,5 @@
 [tool.poetry]
-name = "app"
-version = "0.1.0"
+package-mode = false
 description = ""
 authors = ["KondratevProkhor <prokhor-2000@mail.ru>"]
 readme = "README.md"

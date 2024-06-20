@@ -2,7 +2,7 @@ from fastapi import APIRouter, UploadFile, File
 from fastapi.responses import FileResponse
 from fastapi.exceptions import HTTPException
 from geopandas import GeoDataFrame
-from app.services import Uploader, GeoDataHandler
+from services import Uploader, GeoDataHandler
 
 router = APIRouter()
 

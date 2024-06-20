@@ -1,7 +1,7 @@
 from geopandas import GeoDataFrame, GeoSeries
 from geoalchemy2.shape import to_shape
 from shapely import force_3d
-from app.database import new_session, VectorDataTable, RasterDataTable, ThreeDimDataTable
+from database import new_session, VectorDataTable, RasterDataTable, ThreeDimDataTable
 import os
 import aiofiles
 
