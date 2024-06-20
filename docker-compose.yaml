@@ -2,7 +2,7 @@ services:
   api:
     restart: unless-stopped
     build:
-      context: .
+      context: ./app
       dockerfile: Dockerfile
     container_name: cgp-api
     env_file:

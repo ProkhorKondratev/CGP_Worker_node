@@ -1,6 +1,6 @@
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 from sqlalchemy.orm import DeclarativeBase
-from config import settings
+from app.config import settings
 
 postgres_host = settings.POSTGRES_HOST
 postgres_port = settings.POSTGRES_PORT

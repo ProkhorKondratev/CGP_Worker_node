@@ -3,8 +3,8 @@ from fastapi import FastAPI
 from fastapi.openapi.docs import get_swagger_ui_html
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
-from database import create_tables, delete_tables
-from routing import geodata_router, processing_router
+from .database import create_tables, delete_tables
+from .routing import geodata_router, processing_router
 
 
 @asynccontextmanager

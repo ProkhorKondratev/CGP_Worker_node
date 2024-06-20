@@ -1,5 +1,5 @@
 from pyodm import Node
-from models import PossibleOptionsModel
+from app.models import PossibleOptionsModel
 import yaml
 import os
 import aiofiles
