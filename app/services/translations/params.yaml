@@ -97,7 +97,7 @@ pc-quality:
 pc-classify:
   label: Классифицировать облако точек (управляется через настройки ЦММ)
 
-pc-cops:
+pc-copc:
   label: Экспортировать облако точек в формат Cloud Optimized Point Cloud (COPC)
 
 pc-csv:

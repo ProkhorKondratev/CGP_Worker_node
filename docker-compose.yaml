@@ -42,44 +42,45 @@ services:
       retries: 3
       start_period: 30s
 
-  # redis:
-  #   restart: unless-stopped
-  #   image: redis
-  #   container_name: cgp-redis
-  #   ports:
-  #     - "${REDIS_PORT}:6379"
-  #   volumes:
-  #     - redis_data:/data
-  #   healthcheck:
-  #     test: [ "CMD", "redis-cli", "ping" ]
-  #     interval: 30s
-  #     timeout: 5s
-  #     retries: 3
-  #     start_period: 30s
+  redis:
+    restart: unless-stopped
+    image: redis
+    container_name: cgp-redis
+    ports:
+      - "${REDIS_PORT}:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
 
-  # odm-engine:
-  #   restart: unless-stopped
-  #   image: opendronemap/nodeodm:gpu
-  #   container_name: cgp-odm-node
-  #   environment:
-  #     - gpus=all
-  #   ports:
-  #     - "${ODM_NODE_PORT}:3000"
-  #   volumes:
-  #     - odm_data:/var/www/data
-  #   deploy:
-  #     resources:
-  #       reservations:
-  #         devices:
-  #           - driver: nvidia
-  #             capabilities: [ gpu ]
-  #             count: all
-  #   healthcheck:
-  #     test: [ "CMD", "curl", "-f", "http://localhost:3000/info" ]
-  #     interval: 30s
-  #     timeout: 5s
-  #     retries: 3
-  #     start_period: 30s
+  odm-engine:
+    restart: unless-stopped
+    image: opendronemap/nodeodm:gpu
+    container_name: cgp-odm-node
+    environment:
+      - gpus=all
+    ports:
+      - "${ODM_NODE_PORT}:3000"
+    volumes:
+      # - odm_data:/var/www/data
+      - ./data:/var/www/data
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: [ gpu ]
+              count: all
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:3000/info" ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
 
 volumes:
   pg_data:

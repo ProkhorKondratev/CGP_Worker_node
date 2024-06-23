@@ -67,7 +67,7 @@ class GeoDataHandler:
         tile_path = os.path.join(raster.path, str(z), str(x), f"{y}.png")
 
         if not await aiofiles.os.path.exists(tile_path):
-            raise FileNotFoundError
+            return "utils/empty_tile.png"
 
         return tile_path
 
