@@ -37,10 +37,5 @@ docker-compose.yml
 Dockerfile
 .dockerignore
 
-# Исключаем зависимости pipenv и poetry, если они есть
-Pipfile
-Pipfile.lock
-poetry.lock
-
 # Исключаем сами git-репозитории и все их содержимое
 .git
